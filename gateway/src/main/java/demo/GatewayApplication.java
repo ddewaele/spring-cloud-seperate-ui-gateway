@@ -35,7 +35,7 @@ public class GatewayApplication extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/**").authorizeRequests()
 				.antMatchers("/index.html", "/home.html", "/").permitAll().anyRequest()
-				.authenticated().and().csrf().csrfTokenRepository(csrfTokenRepository())
+				.authenticated().and().csrf().ignoringAntMatchers("/logout").csrfTokenRepository(csrfTokenRepository())
 				.and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 	}
 

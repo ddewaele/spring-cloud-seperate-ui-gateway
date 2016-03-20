@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @SpringBootApplication
 @RestController
 @EnableResourceServer
-//@EnableOAuth2Sso // I had this annotation here that caused a lot of issues. 
+//@EnableOAuth2Sso // I had this annotation here that caused a lot of issues.
 class ResourceApplication {
 
 	@RequestMapping('/')

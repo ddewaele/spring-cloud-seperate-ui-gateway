@@ -17,13 +17,10 @@ security:
 zuul:
   routes:
     ui:
-      path: /ui/**
       url: http://localhost:8080/ui
     resource:
-      path: /resource/**
       url: http://localhost:9000
     user:
-      path: /user/**
       url: http://localhost:9999/uaa/user
 
 logging:
