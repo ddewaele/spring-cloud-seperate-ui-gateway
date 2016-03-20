@@ -42,12 +42,18 @@ function($rootScope, $http, $location, $route) {
 }).controller('home', function($http) {
 	var self = this;
 
-	$http({method: 'GET', url: '/resource/'
-	}).then(function successCallback(response) {
-		self.greeting = response;
-	}, function errorCallback(response) {
-		self.greeting = response;
-	});
+	// This does work. (Ensures that fields are set after page is loaded.
+	$http.get('/resource/').success(function(data) {
+		self.greeting = data;
+	})
+
+	// This does not work. REST call works. but page is not updated.
+	//$http({method: 'GET', url: '/resource/'
+	//}).then(function successCallback(response) {
+	//	self.greeting = response;
+	//}, function errorCallback(response) {
+	//	self.greeting = response;
+	//});
 
 
 
