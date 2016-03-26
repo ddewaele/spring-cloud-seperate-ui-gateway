@@ -1,18 +1,10 @@
 debug: true
 
-server:
-  port: 8888
-  session:
-    cookie:
-      path: /
-
 spring:
   aop:
     proxy-target-class: true
 
 security:
-#   user:
-#     password: password
   oauth2:
     client:
       accessTokenUri: http://localhost:9999/uaa/oauth/token
@@ -24,16 +16,17 @@ security:
 
 zuul:
   routes:
+    ui:
+      url: http://localhost:8080/ui
     resource:
-      path: /resource/**
       url: http://localhost:9000
     user:
       url: http://localhost:9999/uaa/user
-    ui:
-      #path: /ui/**
-      url: http://localhost:8080
 
 logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.web: DEBUG
+
+server:
+  port: 8888

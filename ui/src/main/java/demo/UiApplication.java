@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
 @SpringBootApplication
-@EnableOAuth2Sso
+//@EnableOAuth2Sso // Not really sure if this is needed on the UI as it is already put on the gateway
 public class UiApplication extends WebSecurityConfigurerAdapter {
 
 	public static void main(String[] args) {
@@ -33,8 +33,9 @@ public class UiApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/**").authorizeRequests()
-				.antMatchers("/index.html", "/home.html", "/").permitAll().anyRequest()
-				.authenticated().and().csrf().csrfTokenRepository(csrfTokenRepository())
+				.antMatchers("/index.html", "/home.html", "/").permitAll()
+				.anyRequest()
+				.authenticated().and().csrf().ignoringAntMatchers("/logout").csrfTokenRepository(csrfTokenRepository())
 				.and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 	}
 
@@ -61,6 +62,12 @@ public class UiApplication extends WebSecurityConfigurerAdapter {
 		};
 	}
 
+	/**
+	 * Spring CsrfTokenRepository expects the header "X-CSRF-TOKEN" but Angular sends the token in a header called "X-XSRF-TOKEN"
+	 * so the guide recommended you setup an instance of CsrfTokenRepository which expects the Angular default header "X-XSRF-TOKEN":
+	 *
+	 * @return
+     */
 	private CsrfTokenRepository csrfTokenRepository() {
 		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		repository.setHeaderName("X-XSRF-TOKEN");
